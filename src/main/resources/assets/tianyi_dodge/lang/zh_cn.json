@@ -1,0 +1,10 @@
+{
+  "itemGroup.tianyi_dodge": "天衣的闪避",
+
+  "tianyi_dodge.configuration.title": "天衣闪避配置",
+  "tianyi_dodge.configuration.section.tianyi_dodge.common.toml": "天衣闪避配置",
+  "tianyi_dodge.configuration.section.tianyi_dodge.common.toml.title": "天衣闪避配置",
+
+  "key.tianyi_dodge.dodge": "闪避",
+  "key.categories.tianyi_dodge": "天衣闪避"
+}

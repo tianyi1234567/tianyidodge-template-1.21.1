@@ -1,0 +1,16 @@
+{
+  "itemGroup.tianyi_dodge": "Example Mod Tab",
+  "block.tianyi_dodge.example_block": "Example Block",
+  "item.tianyi_dodge.example_item": "Example Item",
+
+  "tianyi_dodge.configuration.title": "Tianyi Dodge Configs",
+  "tianyi_dodge.configuration.section.tianyi_dodge.common.toml": "Tianyi Dodge Configs",
+  "tianyi_dodge.configuration.section.tianyi_dodge.common.toml.title": "Tianyi Dodge Configs",
+  "tianyi_dodge.configuration.items": "Item List",
+  "tianyi_dodge.configuration.logDirtBlock": "Log Dirt Block",
+  "tianyi_dodge.configuration.magicNumberIntroduction": "Magic Number Text",
+  "tianyi_dodge.configuration.magicNumber": "Magic Number",
+
+  "key.tianyi_dodge.dodge": "Dodge",
+  "key.categories.tianyi_dodge": "Tianyi Dodge"
+}

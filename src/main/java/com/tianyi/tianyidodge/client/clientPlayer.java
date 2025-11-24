@@ -27,7 +27,7 @@ public class clientPlayer {
 
             animationStack.addAnimLayer(DODGE_ANIM_PRIORITY, playerAnimation);
         } catch (Exception e) {
-            // 动画播放失败，但不影响游戏功能
+            // 如果动画停止失败，保证游戏不会崩溃
             e.printStackTrace();
         }
     }
@@ -38,7 +38,6 @@ public class clientPlayer {
             AnimationStack stack = PlayerAnimationAccess.getPlayerAnimLayer(player);
             stack.removeLayer(DODGE_ANIM_PRIORITY);
         } catch (Exception e) {
-            // 动画停止失败，但不影响游戏功能
             e.printStackTrace();
         }
     }

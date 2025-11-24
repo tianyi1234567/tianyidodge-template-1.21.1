@@ -49,7 +49,7 @@ public class DodgeKeyHandler {
             }
         }
     }
-
+    //AI写的临时移动方法，之后要换掉
     private static void performDodge(Player player) {
         // 获取玩家的移动方向
         Vec3 movement = player.getDeltaMovement();
@@ -68,39 +68,39 @@ public class DodgeKeyHandler {
             z /= length;
         }
 
-        // 设置冲刺速度
+        //冲刺的速度
         double distance = Config.DODGE_DISTANCE.get();
         Vec3 dodgeVector = new Vec3(x * distance, player.getDeltaMovement().y, z * distance);
         player.setDeltaMovement(dodgeVector);
 
-        // 设置冷却和无敌时间
+        //冷却
         dodgeCooldown = Config.DODGE_COOLDOWN.get();
-        invulnerabilityTicks = 30; // 固定30 tick的闪避时间
+        invulnerabilityTicks = 30; //无敌帧时间
 
-        // 播放闪避动画
+        //播放闪避动画的调用
         clientPlayer.playDodgeAnimation((net.minecraft.client.player.AbstractClientPlayer) player);
-
-        TianyiDodge.LOGGER.info("闪避! 无敌时间: {} ticks", invulnerabilityTicks);
+        //测试闪避生没生效的
+        TianyiDodge.LOGGER.info("我闪避啦！: {} ticks", invulnerabilityTicks);
     }
 
     @SubscribeEvent
     public static void onPlayerTick(EntityTickEvent.Pre event) {
-        // 只在客户端处理
+        //只在客户端处理
         if (event.getEntity().level().isClientSide() && event.getEntity()
                 instanceof Player player) {
 
-            // 减少冷却时间
+            //减少冷却时间
             if (dodgeCooldown > 0) {
                 dodgeCooldown--;
             }
 
-            // 处理无敌帧
+            //处理无敌帧
             if (invulnerabilityTicks > 0) {
                 invulnerabilityTicks--;
                 player.invulnerableTime = invulnerabilityTicks;
 
-                // 当无敌时间结束时，停止动画
-                if (invulnerabilityTicks == 1) {
+                // 当无敌帧结束时，停止动画
+                if (invulnerabilityTicks == 0) {
                     clientPlayer.stopDodgeAnimation((net.minecraft.client.player.AbstractClientPlayer) player);
                 }
             }

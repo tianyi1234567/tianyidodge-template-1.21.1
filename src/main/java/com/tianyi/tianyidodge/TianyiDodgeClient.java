@@ -23,7 +23,5 @@ public class TianyiDodgeClient {
     @SubscribeEvent
     static void onClientSetup(FMLClientSetupEvent event) {
         // 客户端设置
-        
-        // 按键处理器通过@EventBusSubscriber自动注册，无需手动注册
     }
 }

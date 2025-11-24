@@ -1,6 +1,7 @@
 package com.tianyi.tianyidodge;
 
 import com.tianyi.tianyidodge.client.DodgeKeyHandler;
+import com.tianyi.tianyidodge.client.clientPlayer;
 import net.minecraft.client.Minecraft;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -21,9 +22,7 @@ public class TianyiDodgeClient {
 
     @SubscribeEvent
     static void onClientSetup(FMLClientSetupEvent event) {
-        // Some client setup code
-        TianyiDodge.LOGGER.info("HELLO FROM CLIENT SETUP");
-        TianyiDodge.LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+        // 客户端设置
         
         // 按键处理器通过@EventBusSubscriber自动注册，无需手动注册
     }

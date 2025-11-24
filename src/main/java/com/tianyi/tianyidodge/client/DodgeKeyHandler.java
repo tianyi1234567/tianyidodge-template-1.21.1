@@ -2,6 +2,8 @@ package com.tianyi.tianyidodge.client;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.tianyi.tianyidodge.TianyiDodge;
+import com.tianyi.tianyidodge.Config;
+import com.tianyi.tianyidodge.client.clientPlayer;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
@@ -12,9 +14,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.settings.KeyConflictContext;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.bus.api.Event;
-import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import org.lwjgl.glfw.GLFW;
 
@@ -24,18 +24,16 @@ public class DodgeKeyHandler {
     private static final String DODGE_KEY = "key.tianyi_dodge.dodge";
 
     public static final KeyMapping DODGE_MAPPING = new KeyMapping(
-            DODGE_KEY, 
-            KeyConflictContext.IN_GAME, 
-            InputConstants.Type.KEYSYM, 
-            GLFW.GLFW_KEY_R, 
+            DODGE_KEY,
+            KeyConflictContext.IN_GAME,
+            InputConstants.Type.KEYSYM,
+            GLFW.GLFW_KEY_R,
             KEY_CATEGORY
     );
 
     private static int dodgeCooldown = 0;
     private static int invulnerabilityTicks = 0;
-    private static final int DODGE_COOLDOWN_TICKS = 20; // 1秒冷却
-    private static final int DODGE_DISTANCE = 5; // 冲刺距离
-    private static final int INVULNERABILITY_TICKS = 10; // 无敌帧持续时间(0.5秒)
+
 
     @SubscribeEvent
     public static void registerKeyMappings(RegisterKeyMappingsEvent event) {
@@ -71,12 +69,16 @@ public class DodgeKeyHandler {
         }
 
         // 设置冲刺速度
-        Vec3 dodgeVector = new Vec3(x * DODGE_DISTANCE, player.getDeltaMovement().y, z * DODGE_DISTANCE);
+        double distance = Config.DODGE_DISTANCE.get();
+        Vec3 dodgeVector = new Vec3(x * distance, player.getDeltaMovement().y, z * distance);
         player.setDeltaMovement(dodgeVector);
 
         // 设置冷却和无敌时间
-        dodgeCooldown = DODGE_COOLDOWN_TICKS;
-        invulnerabilityTicks = INVULNERABILITY_TICKS;
+        dodgeCooldown = Config.DODGE_COOLDOWN.get();
+        invulnerabilityTicks = 30; // 固定30 tick的闪避时间
+
+        // 播放闪避动画
+        clientPlayer.playDodgeAnimation((net.minecraft.client.player.AbstractClientPlayer) player);
 
         TianyiDodge.LOGGER.info("闪避! 无敌时间: {} ticks", invulnerabilityTicks);
     }
@@ -84,18 +86,23 @@ public class DodgeKeyHandler {
     @SubscribeEvent
     public static void onPlayerTick(EntityTickEvent.Pre event) {
         // 只在客户端处理
-        if (event.getEntity().level().isClientSide()) {
-            Player player = (Player) event.getEntity();
-            
+        if (event.getEntity().level().isClientSide() && event.getEntity()
+                instanceof Player player) {
+
             // 减少冷却时间
             if (dodgeCooldown > 0) {
                 dodgeCooldown--;
             }
-            
+
             // 处理无敌帧
             if (invulnerabilityTicks > 0) {
                 invulnerabilityTicks--;
                 player.invulnerableTime = invulnerabilityTicks;
+
+                // 当无敌时间结束时，停止动画
+                if (invulnerabilityTicks == 1) {
+                    clientPlayer.stopDodgeAnimation((net.minecraft.client.player.AbstractClientPlayer) player);
+                }
             }
         }
     }

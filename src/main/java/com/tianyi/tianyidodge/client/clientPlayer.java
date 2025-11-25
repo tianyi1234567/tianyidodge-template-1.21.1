@@ -15,24 +15,26 @@ public class clientPlayer {
     
     private static final int DODGE_ANIM_PRIORITY = 42;
 
-    
-    // 播放闪避动画
-    public static void playDodgeAnimation(AbstractClientPlayer player) {
+    //闪避动画实现方法
+    public static void playDodgeAnimation(AbstractClientPlayer player, String direction) {
         try {
             AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(player);
             ModifierLayer<IAnimation> playerAnimation = new ModifierLayer<>();
+
+            //根据方向选择不同的动画（这样写最省事）
+            String animationName = "tianyi_dodge_" + direction;
             playerAnimation.setAnimation(PlayerAnimationRegistry
-                .getAnimation(ResourceLocation.fromNamespaceAndPath(MODID, "tianyi_dodge_left"))
+                .getAnimation(ResourceLocation.fromNamespaceAndPath(MODID, animationName))
                 .playAnimation());
 
             animationStack.addAnimLayer(DODGE_ANIM_PRIORITY, playerAnimation);
         } catch (Exception e) {
-            // 如果动画停止失败，保证游戏不会崩溃
+            //如果动画播放失败，保证游戏不会崩溃（以防万一用的）
             e.printStackTrace();
         }
     }
     
-    // 停止闪避动画
+    //停止闪避动画（防止崩溃）
     public static void stopDodgeAnimation(AbstractClientPlayer player) {
         try {
             AnimationStack stack = PlayerAnimationAccess.getPlayerAnimLayer(player);

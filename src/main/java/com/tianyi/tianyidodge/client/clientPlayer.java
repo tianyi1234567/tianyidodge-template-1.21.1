@@ -22,7 +22,7 @@ public class clientPlayer {
             AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(player);
             ModifierLayer<IAnimation> playerAnimation = new ModifierLayer<>();
             playerAnimation.setAnimation(PlayerAnimationRegistry
-                .getAnimation(ResourceLocation.fromNamespaceAndPath(MODID, "tianyi_dodge"))
+                .getAnimation(ResourceLocation.fromNamespaceAndPath(MODID, "tianyi_dodge_left"))
                 .playAnimation());
 
             animationStack.addAnimLayer(DODGE_ANIM_PRIORITY, playerAnimation);

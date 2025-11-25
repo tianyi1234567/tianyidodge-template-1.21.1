@@ -13,7 +13,7 @@ public class Config {
     // 闪避距离
     public static final ModConfigSpec.DoubleValue DODGE_DISTANCE = BUILDER
             .comment("闪避的距离")
-            .defineInRange("dodgeDistance", 4.0, 1.0, 20.0);
+            .defineInRange("dodgeDistance", 2.0, 1.0, 20.0);
     
     // 无敌帧持续时间
     public static final ModConfigSpec.IntValue INVULNERABILITY_TICKS = BUILDER

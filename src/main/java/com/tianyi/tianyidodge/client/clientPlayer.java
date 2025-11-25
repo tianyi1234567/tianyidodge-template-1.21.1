@@ -13,7 +13,7 @@ import static com.tianyi.tianyidodge.TianyiDodge.MODID;
 
 public class clientPlayer {
     
-    private static final int DODGE_ANIM_PRIORITY = 42;
+    private static final int DODGE_ANIM_PRIORITY = 42;//动画等级（能打断小于自己的动画的等级）
 
     //闪避动画实现方法
     public static void playDodgeAnimation(AbstractClientPlayer player, String direction) {
